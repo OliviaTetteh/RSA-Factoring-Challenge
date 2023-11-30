@@ -1,36 +1,27 @@
 #!/usr/bin/python3
-
 import sys
-import time
+
 
 def factorize(num):
-    for j in range(2, int(num**0.5)+1):
-        if num % j == 0:
-            return (j, num//j)
-    return None
+    """ Generate 2 factors for a given number"""
+    factor1 = 2
+    while (num % factor1):
+        if (factor1 <= num):
+            factor1 += 1
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: factors <files>")
-        exit()
+    factor2 = num // factor1
+    return (factor2, factor1)
 
-    input_file = sys.argv[1]
 
-    try:
-        with open(input_file, 'r') as f:
-            lines = f.readlines()
-    except FileNotFoundError:
-        print ("File not found")
-        exit ()
+if len(sys.argv) != 2:
+    sys.exit(f"Wrong usage: {sys.argv[0]} <file_path>")
 
-    start_time = time.time()
+filename = sys.argv[1]
 
-    for line in lines:
-        num = int(line.strip())
-        factors = factorize(num)
-        if factors:
-            print(f"{num}={factors[0]}*{factors[1]}")
+file = open(filename, 'r')
+lines = file.readlines()
 
-        if time.time() - start_time > 5:
-            print("Time limit exceeded")
-            exit()
+for line in lines:
+    num = int(line.rstrip())
+    factor2, factor1 = factorize(num)
+    print(f"{num} = {factor2} * {factor1}")
